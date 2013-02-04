@@ -13,10 +13,6 @@
 // Get the configs
 include dirname(__FILE__) . '/Library/Config.class.php';
 
-// Create the socket, and bind it to a port
-$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-socket_bind($socket, Config::get('host'), Config::get('portServer') + 1);
-
 // Setup Demcached
 $memcached = new Memcached();
 $memcached->addServer(Config::get('host'), Config::get('portMemcached'));

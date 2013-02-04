@@ -23,7 +23,44 @@
 	</script>
 </head>
 <body>
+	<h1>Your Memcached server running on <?=Config::get('host')?>:<?=Config::get('portMemcached')?></h1>
+
 	<div id="memcached-graph"></div>
+
+	<table>
+		<tr>
+			<th>Current items</th>
+			<td id="stat-current-items">Calculating&hellip;</td>
+			<th>Uptime</th>
+			<td id="stat-uptime">Calculating&hellip;</td>
+		</tr>
+		<tr>
+			<th>Total reads</th>
+			<td id="stat-reads">Calculating&hellip;</td>
+			<th>Process ID</th>
+			<td id="stat-process-id">Calculating&hellip;</td>
+		</tr>
+		<tr>
+			<th>Total read hits</th>
+			<td id="stat-read-hits">Calculating&hellip;</td>
+			<th>Current connections</th>
+			<td id="stat-cur-connections">Calculating&hellip;</td>
+		</tr>
+		<tr>
+			<th>Total read misses</th>
+			<td id="stat-read-misses">Calculating&hellip;</td>
+			<th>Total connections</th>
+			<td id="stat-total-connections">Calculating&hellip;</td>
+		</tr>
+		<tr>
+			<th>Total sets</th>
+			<td id="stat-sets" style="width:200px">Calculating&hellip;</td>
+		</tr>
+		<tr>
+			<th>Evictions</th>
+			<td id="stat-evictions" style="width:200px">Calculating&hellip;</td>
+		</tr>
+	</table>
 
 	<!-- Third Party Javascript //-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>

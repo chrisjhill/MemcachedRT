@@ -1,6 +1,9 @@
 body,table{font-family:Arial;font-size:13px;text-align:center;color:#555}
 h1,h2,h3{font-weight:normal}
-#memcached-graph{width:900px;height:300px;margin:auto;font-size:10px;margin-bottom:20px}
-table{border-collapse:collapse;width:600px;margin:auto}
+.container{width:1080px;margin:auto}
+.grid{float:left}
+#memcached-graph-hps{width:650px;height:250px;font-size:10px;margin-bottom:20px}
+#memcached-graph-space{width:400px;height:250px}
+table{border-collapse:collapse;width:700px;margin:auto}
 	th,td{padding:8px;border-bottom:1px solid #CCC;text-align:left}
 		th{background:#EEE;width:135px}

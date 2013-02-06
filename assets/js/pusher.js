@@ -4,13 +4,17 @@ var pusherChannel = pusher.subscribe(pusherChannel);
 
 // This function is called when we receive a push event
 pusherChannel.bind(pusherEvent, function(data) {
-	// First, set the graph
+	// First, set the graphs
+	// Hits Per Second (HPS)
 	window.plot.setData([{
 		data:       getData(data.hitsPerSecond),
 		color:      "#FFF",
 		shadowSize: 2
 	}]);
 	window.plot.draw();
+
+	// Free space
+	window.drawChart(100 - data.spaceFreePercent, data.spaceFreePercent);
 
 	// Now let's update the stats
 	// Left column
@@ -25,4 +29,6 @@ pusherChannel.bind(pusherEvent, function(data) {
 	document.getElementById("stat-process-id").innerHTML        = data.processId;
 	document.getElementById("stat-cur-connections").innerHTML   = data.currConnections;
 	document.getElementById("stat-total-connections").innerHTML = data.totalConnections;
+	document.getElementById("stat-space-total").innerHTML       = data.spaceTotal + "MB";
+	document.getElementById("stat-space-free").innerHTML        = data.spaceFreeMb + "MB (" + data.spaceFreePercent + "%)";
 });

@@ -31,7 +31,7 @@ function getData(hitsPerSecond) {
 // Not plot the graph
 var plot = $.plot(
 	// The DOM element we want to place the grid
-	$("#memcached-graph"),
+	$("#memcached-graph-hps"),
 
 	// Series data
 	[{

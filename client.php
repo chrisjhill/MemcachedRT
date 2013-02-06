@@ -25,7 +25,15 @@
 <body>
 	<h1>Your Memcached server running on <?=Config::get('host')?>:<?=Config::get('portMemcached')?></h1>
 
-	<div id="memcached-graph"></div>
+	<div class="container">
+		<div class="grid">
+			<div id="memcached-graph-hps"></div>
+		</div>
+
+		<div class="grid">
+			<div id="memcached-graph-space"></div>
+		</div>
+	</div>
 
 	<table>
 		<tr>
@@ -55,19 +63,25 @@
 		<tr>
 			<th>Total sets</th>
 			<td id="stat-sets" style="width:200px">Calculating&hellip;</td>
+			<th>Total space</th>
+			<td id="stat-space-total">Calculating&hellip;</td>
 		</tr>
 		<tr>
 			<th>Evictions</th>
 			<td id="stat-evictions" style="width:200px">Calculating&hellip;</td>
+			<th>Space available</th>
+			<td id="stat-space-free">Calculating&hellip;</td>
 		</tr>
 	</table>
 
 	<!-- Third Party Javascript //-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script src="http://js.pusher.com/1.12/pusher.min.js"></script>
 	<script src="<?=Config::get('webPath')?>assets/js/flot/flot.js"></script>
 	<!-- Our Javascript :) //-->
 	<script src="<?=Config::get('webPath')?>assets/js/pusher.js"></script>
-	<script src="<?=Config::get('webPath')?>assets/js/graph.js"></script>
+	<script src="<?=Config::get('webPath')?>assets/js/graph-hps.js"></script>
+	<script src="<?=Config::get('webPath')?>assets/js/graph-space.js"></script>
 </body>
 </html>

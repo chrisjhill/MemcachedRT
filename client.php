@@ -76,9 +76,8 @@
 
 	<!-- Third Party Javascript //-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script src="https://www.google.com/jsapi"></script>
 	<script src="http://js.pusher.com/1.12/pusher.min.js"></script>
-	<script src="<?=Config::get('webPath')?>assets/js/flot/flot.js"></script>
 	<!-- Our Javascript :) //-->
 	<script src="<?=Config::get('webPath')?>assets/js/pusher.js"></script>
 	<script src="<?=Config::get('webPath')?>assets/js/graph-hps.js"></script>

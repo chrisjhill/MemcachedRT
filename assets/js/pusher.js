@@ -4,17 +4,11 @@ var pusherChannel = pusher.subscribe(pusherChannel);
 
 // This function is called when we receive a push event
 pusherChannel.bind(pusherEvent, function(data) {
-	// First, set the graphs
-	// Hits Per Second (HPS)
-	window.plot.setData([{
-		data:       getData(data.hitsPerSecond),
-		color:      "#FFF",
-		shadowSize: 2
-	}]);
-	window.plot.draw();
+	// Hits per second
+	window.drawChartHps(getDataHps(data.hitsPerSecond));
 
 	// Free space
-	window.drawChart(100 - data.spaceFreePercent, data.spaceFreePercent);
+	window.drawChartSpace(100 - data.spaceFreePercent, data.spaceFreePercent);
 
 	// Now let's update the stats
 	// Left column

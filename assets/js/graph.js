@@ -3,7 +3,7 @@ google.setOnLoadCallback(function() {
 	// Google Charts has loaded, let's set some global variables.
 	// .. We do this here and not in the drawChart function so it
 	// .. isn't executed every time!
-	
+
 	// These are the options for the Google Area Chart
 	window.options = {
 		backgroundColor:    { fill: "#E67373" },
@@ -12,7 +12,6 @@ google.setOnLoadCallback(function() {
 		legend:             { position: "none" },
 		chartArea:          { left: 0, top: 0, width: "100%", height: "100%" },
 		lineWidth:          1,
-		animation:          { duration: 1000, easing: "inAndOut" },
 		fontSize:           10,
 		vAxis: {
 			minValue:       0,
@@ -24,6 +23,11 @@ google.setOnLoadCallback(function() {
 			baselineColor:  "#E67373",
 		},
 	};
+
+	// Allow the graph to animate?
+	if (window.graphEnableAnimations) {
+		window.options['animation'] = { duration: 1000, easing: "inAndOut" };
+	}
 
 	// This is the reference to the DOM element
 	window.chart = new google.visualization.AreaChart(

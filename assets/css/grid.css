@@ -5,14 +5,16 @@
   Author - Dallas Bass
   Site - dallasbass.com
 */
-*,:after,:before{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
-body{margin:0}
-[class*='col-']{float:left;padding-right:60px}
-.grid{position:relative;width:100%;max-width:1140px;min-width:755px;overflow:hidden;margin:0 auto}
+*,*:after,*:before{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
+body{margin:0px}
+[class*='col-']{float:left;padding-right:20px}
+[class*='col-']:last-of-type{padding-right:0px}
+.grid{width:100%;max-width:1140px;min-width:755px;margin:0 auto;overflow:hidden}
 .grid:after{content:"";display:table;clear:both}
-.grid-pad{padding:20px 0 0 20px}
+.grid-pad{padding:20px 0 0px 20px}
 .grid-pad > [class*='col-']:last-of-type{padding-right:20px}
 .push-right{float:right}
+/* Content Columns */
 .col-1-1{width:100%}
 .col-2-3,.col-8-12{width:66.66%}
 .col-1-2,.col-6-12{width:50%}
@@ -26,12 +28,14 @@ body{margin:0}
 .col-1-10{width:10%}
 .col-1-11{width:9.09%}
 .col-1-12{width:8.33%}
+/* Layout Columns */
 .col-11-12{width:91.66%}
 .col-10-12{width:83.333%}
 .col-9-12{width:75%}
 .col-5-12{width:41.66%}
 .col-7-12{width:58.33%}
-@media handheld,only screen and max-width 767px {
-	.grid{width:100%;min-width:0;margin-left:0;margin-right:0;padding-left:0;padding-right:0}
-	[class*='col-']{width:auto;float:none;padding-left:20px;padding-right:20px;margin:10px 0}
+/* Media types */
+@media handheld, only screen and (max-width: 767px) {
+	.grid{width:100%;min-width:0;margin-left:0px;margin-right:0px;padding-left:0px;padding-right:0px}
+	[class*='col-']{width:auto;float:none;margin-left:0px;margin-right:0px;margin-top:10px;margin-bottom:10px;padding-left:20px;padding-right:20px}
 }

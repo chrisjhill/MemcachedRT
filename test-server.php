@@ -20,13 +20,17 @@ $memcached->addServer(Config::get('host'), Config::get('portMemcached'));
 // Start the infinite loop
 while (true) {
 	// Get a random amount of variables
-	for ($i = 0, $r = mt_rand(1, 500); $i <= $r; $i++) {
+	for ($i = 0, $r = mt_rand(1, 750); $i <= $r; $i++) {
 		// Make the set stats go up
 		$memcachedVariable = 'foo' . mt_rand(0, 9999999999);
 		$memcached->set($memcachedVariable, 'bar');
+		$memcached->get(mt_rand(0, 1) ? $memcachedVariable : 'var-that-doesnt-exist');
 
 		// Simulate both hits and misses
-		$memcached->get(mt_rand(0, 1) ? $memcachedVariable : 'var-that-doesnt-exist');
+		if (mt_rand(0, 2)) {
+			$memcached->get(mt_rand(0, 1) ? $memcachedVariable : 'var-that-doesnt-exist');
+			$memcached->get(mt_rand(0, 1) ? $memcachedVariable : 'var-that-doesnt-exist');
+		}
 	}
 
 	// Output a message on the terminal so we know it's running

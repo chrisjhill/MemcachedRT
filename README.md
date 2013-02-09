@@ -14,5 +14,5 @@ Installation guide
 * Copy files to your Web server (path does not matter),
 * Edit the /Library/config.ini for your specific settings,
 * Run the server.php as a server (php -q server.php),
-* Navigation your browser to client.php,
+* Navigation your browser to index.php,
 * Watch as the graph will display real-time hits on your Memcached server.

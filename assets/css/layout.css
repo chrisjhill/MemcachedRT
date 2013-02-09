@@ -1,9 +1,41 @@
-body,table{font-family:Arial;font-size:13px;text-align:center;color:#555}
-h1,h2,h3{font-weight:normal}
-.container{width:1080px;margin:auto}
-.grid{float:left}
-#memcached-graph-hps{width:650px;height:250px;font-size:10px;margin-bottom:20px}
-#memcached-graph-space{width:400px;height:250px}
-table{border-collapse:collapse;width:700px;margin:auto}
+/* Le body */
+body{margin:0;padding:0;background:#E67373;color:#555;font:400 13px/26px "Open Sans",Arial,Helvetica,Verdana,sans-serif}
+
+/* Splash screen */
+#splash{position:fixed;top:0;right:0;bottom:0;left:0;background:#D61414;text-align:center}
+	#splash img{margin:100px 0 0}
+	#splash h3{color:#FFF;line-height:20p;font-size:20px}
+		#splash span{font-size:12px;color:#F0AEAE;font-style:italic}
+
+/* General typography */
+h1,h2,h3,h4{font-weight:normal}
+	h2{font-size:16px;color:#FFF;text-align:center;text-shadow:1px 1px 1px #555}
+a{color:#FFF;text-decoration:underline}
+	a:hover{text-decoration:none}
+code{font-family:Monaco,Courier,"Courier New";font-size:12px}
+
+/* Header */
+header{position:relative;background:#D61414;color:#FFF;padding-top:10px}
+	#host{position:absolute;top:53px;right:0;font-size:11px}
+
+/* Body */
+#graph-group-2{margin-top:30px}
+/* Graphs */
+#memcached-graph-live{width:1140px;height:250px;font-size:10px;margin:20px 0}
+.graph{position:relative;text-align:center;color:#FFF}
+	.graph p{position:absolute;top:10px;right:60px;bottom:0;left:0;margin:0;padding:0}
+	.graph div{float:left;width:100%;height:100%;padding:10px 0}
+		#graph-actions div{width:50%}
+		#graph-status div{width:33.3%}
+		#graph-space div{width:50%}
+
+.status-good{background:#080}
+.status-fine{background:#F60}
+.status-bad{background:#D61414}
+/* Tables */
+table{font-family:Arial;font-size:13px;border-collapse:collapse}
 	th,td{padding:8px;border-bottom:1px solid #CCC;text-align:left}
 		th{background:#EEE;width:135px}
+
+/* Generic */
+::-moz-selection,::selection{background:#FFF;color:#D61414;text-shadow:none}

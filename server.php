@@ -13,8 +13,20 @@ $memcached = new Memcached();
 $memcached->addServer(Config::get('host'), Config::get('portMemcached'));
 
 // Get the stats, and set how many hits there have been so far
-$memcachedStats     = getMemcachedStats($memcached);
-$memcachedTotalHits = $memcachedStats['hitsPerSecond'];
+$memcachedStats  = getMemcachedStats($memcached, array(
+	'totalGets'      => 0,
+	'totalSets'      => 0,
+	'totalHits'      => 0,
+	'totalMisses'    => 0,
+	'totalEvictions' => 0
+));
+$memcachedTotals = array(
+	'totalGets'      => $memcachedStats['cmdGet'],
+	'totalSets'      => $memcachedStats['cmdSet'],
+	'totalHits'      => $memcachedStats['getHits'],
+	'totalMisses'    => $memcachedStats['getMisses'],
+	'totalEvictions' => $memcachedStats['evictions']
+);
 
 // Setup Pusher
 $pusher = new Pusher(
@@ -26,51 +38,57 @@ $pusher = new Pusher(
 // Start the infinite loop
 while (true) {
 	// Get the new stats on Memcached
-	$memcachedStats      = getMemcachedStats($memcached, $memcachedTotalHits);
-	$memcachedTotalHits += $memcachedStats['hitsPerSecond'];
+	$memcachedStats  = getMemcachedStats($memcached, $memcachedTotals);
+	$memcachedTotals['totalGets']      += $memcachedStats['psGets'];
+	$memcachedTotals['totalSets']      += $memcachedStats['psSets'];
+	$memcachedTotals['totalHits']      += $memcachedStats['psHits'];
+	$memcachedTotals['totalMisses']    += $memcachedStats['psMisses'];
+	$memcachedTotals['totalEvictions'] += $memcachedStats['psEvictions'];
 
 	// Push the message to Pusher
 	$pusher->trigger('memcached', 'stat', $memcachedStats);
 
 	// Output a message on the terminal so we know it's running
-	echo date('jS F Y, G:i:s') . ": {$memcachedStats['hitsPerSecond']}\n";
+	echo date('jS F Y, G:i:s') . ": Server\n";
 
 	// Sleep for a second, otherwise it will be going like the clappers!
 	sleep(1);
 }
 
 // Works out the total hits
-function getMemcachedStats($memcached, $memcachedTotalHits = 0) {
+function getMemcachedStats($memcached, $memcachedTotals) {
 	// Get the stats for this server
 	$stats = $memcached->getStats();
 	$stats = $stats[Config::get('host') . ':' . Config::get('portMemcached')];
 
-	// Turn bytes into MegaBytes
+	// Turn bytes into MB
 	$stats['limit_maxbytes'] = $stats['limit_maxbytes'] / 1024 / 1024;
 	$stats['bytes']          = $stats['bytes']          / 1024 / 1024;
 
 	// And return the total of amount of hits
 	return array(
-		// Generic Memcached stats
+		// Standard Memcached stats
 		'processId'        => $stats['pid'],
 		'uptime'           => date('H:i:s', $stats['uptime']),
-		'currItems'        => number_format($stats['curr_items']),
-		'totalItems'       => number_format($stats['total_items']),
-		'currConnections'  => number_format($stats['curr_connections']),
-		'totalConnections' => number_format($stats['total_connections']),
-		'cmdGet'           => number_format($stats['cmd_get']),
-		'cmdSet'           => number_format($stats['cmd_set']),
-		'getHits'          => number_format($stats['get_hits']),
-		'getMisses'        => number_format($stats['get_misses']),
-		'evictions'        => number_format($stats['evictions']),
+		'currItems'        => $stats['curr_items'],
+		'totalItems'       => $stats['total_items'],
+		'currConnections'  => $stats['curr_connections'],
+		'totalConnections' => $stats['total_connections'],
+		'cmdGet'           => $stats['cmd_get'],
+		'cmdSet'           => $stats['cmd_set'],
+		'getHits'          => $stats['get_hits'],
+		'getMisses'        => $stats['get_misses'],
+		'evictions'        => $stats['evictions'],
 
 		// User created stats
-		'hitsPerSecond'    => ($stats['cmd_get'] + $stats['cmd_set']) - $memcachedTotalHits,
-		'spaceTotal'       => number_format($stats['limit_maxbytes'], 2),
-		'spaceFreeMb'      => number_format($stats['limit_maxbytes'] - $stats['bytes'], 2),
-		'spaceFreePercent' => number_format(($stats['bytes'] / $stats['limit_maxbytes']) * 100, 2)
+		// Per second
+		'psGets'           => $stats['cmd_get']    - $memcachedTotals['totalGets'],
+		'psSets'           => $stats['cmd_set']    - $memcachedTotals['totalSets'],
+		'psHits'           => $stats['get_hits']   - $memcachedTotals['totalHits'],
+		'psMisses'         => $stats['get_misses'] - $memcachedTotals['totalMisses'],
+		'psEvictions'      => $stats['evictions']  - $memcachedTotals['totalEvictions'],
+		// Space
+		'spaceTotal'       => $stats['limit_maxbytes'],
+		'spaceFree'        => $stats['limit_maxbytes'] - $stats['bytes']
 	);
 }
-
-// close the listening socket
-socket_close($socket);

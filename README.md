@@ -14,12 +14,12 @@ Features include:
  * Glance-able colour coded statuses; green for "Good", orange for "Okay", red for "Eek".
  * Know your Get and Set proportion.
  * Discover if you are missing or evicting a lot of data.
- * Be alerted when you are running our of storage space.
+ * Be alerted when you are running out of storage space.
  * Know the stability of your server with the live uptime status.
- * Details on how item quantity, actions performed, how how many connections.
- * Responsive design; plays nicely any any size, or on your mobile device.
+ * Details on item quantity, actions performed, and connection count.
+ * Responsive design; plays nicely at any size and on your mobile device.
  * Know when a connection is lost to your server, and automatic recovery.
- * Only have Memcached installed locally? No problem, use the test server script.
+ * Only have Memcached installed locally? No problem, use the test-server.php script.
  * Released under the MIT licence.
 
 Prerequisites

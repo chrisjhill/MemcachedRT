@@ -30,7 +30,9 @@
 		<div class="grid">
 			<div class="col-1-2">
 				<p><img src="<?=Config::get('webPath')?>assets/img/memcachedrt-small.png" alt="Memcached | The Real Time Web Monitor" /></p>
+			</div>
 
+			<div class="col-1-2">
 				<p id="host"><strong>Live monitoring</strong>: <?=Config::get('host')?>:<?=Config::get('portMemcached')?></p>
 			</div>
 		</div>

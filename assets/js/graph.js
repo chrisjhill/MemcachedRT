@@ -7,10 +7,10 @@ google.setOnLoadCallback(function() {
 	// These are the options for the Google Area Chart
 	window.options = {
 		backgroundColor:    { fill: "#E67373" },
-		colors:             [ "#FFF", "#D61414" ],
+		colors:             [ "#DDD", "#D61414" ],
 		areaOpacity:        0.2,
 		legend:             { position: "none" },
-		chartArea:          { left: 0, top: 0, width: "100%", height: "100%" },
+		chartArea:          { left: 0, top: 0, width: "98%", height: "100%" },
 		lineWidth:          1,
 		fontSize:           10,
 		vAxis: {
@@ -20,7 +20,7 @@ google.setOnLoadCallback(function() {
 			textPosition:   "in",
 			gridlines:      { color: "#F0AEAE", count: 6 },
 			minorGridlines: { color: "#EA8989", count: 1 },
-			baselineColor:  "#E67373",
+			baselineColor:  "#F0AEAE",
 		},
 	};
 
@@ -47,7 +47,7 @@ function drawChart() {
 // Data holds all of the points that we need to log
 // @todo Get this from MySQL sometime in the fure.
 var data = [];
-for (i = 0; i <= window.seconds; i++) { data.push([ "void", 100, 0 ]); }
+for (i = 0; i <= window.seconds; i++) { data.push([ "void", 1, 20 ]); }
 
 // Update our data array with the new data received from the push event
 function getData(psActions, psEvictions) {

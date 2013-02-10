@@ -34,4 +34,10 @@ body{margin:0px}
 @media handheld, only screen and (max-width: 767px) {
 	.grid{width:100%;min-width:0;margin-left:0px;margin-right:0px;padding-left:0px;padding-right:0px}
 	[class*='col-']{width:auto;float:none;margin:10px 0px;padding-left:10px;padding-right:10px}
+
+	#host{position:absolute;top:9px;left:220px;margin:0;padding:0}
+		#host strong{display:none}
+	.graph-titles{display:none}
+	.graph{clear:both;height:45px}
+	#graph-group-2{display:none}
 }

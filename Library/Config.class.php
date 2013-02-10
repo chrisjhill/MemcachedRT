@@ -1,4 +1,6 @@
 <?php
+namespace MemcacheRT;
+
 /**
  * Configurations for the Memcached Real Time tracking.
  *

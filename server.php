@@ -1,4 +1,6 @@
 <?php
+use MemcacheRT\Config;
+
 /**
  * Run this script in your terminal (php -q /path/to/this/file.php).
  *
@@ -9,7 +11,7 @@ include dirname(__FILE__) . '/Library/Config.class.php';
 include dirname(__FILE__) . '/Library/Pusher.class.php';
 
 // Setup Memcached
-$memcached = new Memcached();
+$memcached = new \Memcached();
 $memcached->addServer(Config::get('host'), Config::get('portMemcached'));
 
 // Get the stats, and set how many hits there have been so far
@@ -29,7 +31,7 @@ $memcachedTotals = array(
 );
 
 // Setup Pusher
-$pusher = new Pusher(
+$pusher = new \Pusher(
 	Config::get('pusherApiKey'),
 	Config::get('pusherApiSecret'),
 	Config::get('pusherAppId')
@@ -49,7 +51,10 @@ while (true) {
 	$pusher->trigger('memcached', 'stat', $memcachedStats);
 
 	// Output a message on the terminal so we know it's running
-	echo date('jS F Y, G:i:s') . ": Server\n";
+	echo date('jS F Y, G:i:s')
+		. ': '
+		. number_format($memcachedStats['psGets'] + $memcachedStats['psGets'])
+		. " actions\n";
 
 	// Sleep for a second, otherwise it will be going like the clappers!
 	sleep(1);
@@ -68,27 +73,27 @@ function getMemcachedStats($memcached, $memcachedTotals) {
 	// And return the total of amount of hits
 	return array(
 		// Standard Memcached stats
-		'processId'        => $stats['pid'],
-		'uptime'           => date('H:i:s', $stats['uptime']),
-		'currItems'        => $stats['curr_items'],
-		'totalItems'       => $stats['total_items'],
-		'currConnections'  => $stats['curr_connections'],
-		'totalConnections' => $stats['total_connections'],
-		'cmdGet'           => $stats['cmd_get'],
-		'cmdSet'           => $stats['cmd_set'],
-		'getHits'          => $stats['get_hits'],
-		'getMisses'        => $stats['get_misses'],
-		'evictions'        => $stats['evictions'],
+		'processId'   => $stats['pid'],
+		'uptime'      => date('H:i:s', $stats['uptime']),
+		'currItems'   => $stats['curr_items'],
+		'totalItems'  => $stats['total_items'],
+		'currCons'    => $stats['curr_connections'],
+		'totalCons'   => $stats['total_connections'],
+		'cmdGet'      => $stats['cmd_get'],
+		'cmdSet'      => $stats['cmd_set'],
+		'getHits'     => $stats['get_hits'],
+		'getMisses'   => $stats['get_misses'],
+		'evictions'   => $stats['evictions'],
 
 		// User created stats
 		// Per second
-		'psGets'           => $stats['cmd_get']    - $memcachedTotals['totalGets'],
-		'psSets'           => $stats['cmd_set']    - $memcachedTotals['totalSets'],
-		'psHits'           => $stats['get_hits']   - $memcachedTotals['totalHits'],
-		'psMisses'         => $stats['get_misses'] - $memcachedTotals['totalMisses'],
-		'psEvictions'      => $stats['evictions']  - $memcachedTotals['totalEvictions'],
+		'psGets'      => $stats['cmd_get']    - $memcachedTotals['totalGets'],
+		'psSets'      => $stats['cmd_set']    - $memcachedTotals['totalSets'],
+		'psHits'      => $stats['get_hits']   - $memcachedTotals['totalHits'],
+		'psMisses'    => $stats['get_misses'] - $memcachedTotals['totalMisses'],
+		'psEvictions' => $stats['evictions']  - $memcachedTotals['totalEvictions'],
 		// Space
-		'spaceTotal'       => $stats['limit_maxbytes'],
-		'spaceFree'        => $stats['limit_maxbytes'] - $stats['bytes']
+		'spaceTotal'  => $stats['limit_maxbytes'],
+		'spaceFree'   => $stats['limit_maxbytes'] - $stats['bytes']
 	);
 }

@@ -23,17 +23,17 @@ $infoActionsP        = $("#info-actions p");
 $infoConnectionsP    = $("#info-connections p");
 // The splash screen
 $splash              = $("#splash");
-window.pusherUpdated = new Date();
-window.showSplash    = true;
+var pusherUpdated    = new Date();
+var showSplash       = true;
 
 // This function is called when we receive a push event
 pusherChannel.bind(pusherEvent, function(data) {
 	// Set our last update, and allow splash screen to be shown
-	window.pusherUpdated = new Date();
-	window.showSplash    = true;
+	pusherUpdated = new Date();
+	showSplash    = true;
 
 	// Actions and evictions per second
-	window.drawChart(
+	drawChart(
 		getData((data.psGets + data.psSets),
 		data.psEvictions)
 	);
@@ -85,26 +85,26 @@ pusherChannel.bind(pusherEvent, function(data) {
 	$infoUptimeP.html(data.uptime);
 	$infoItemsP.html(number_format(data.currItems));
 	$infoActionsP.html(number_format(data.cmdGet + data.cmdSet));
-	$infoConnectionsP.html(number_format(data.currConnections));
+	$infoConnectionsP.html(number_format(data.currCons));
 });
 
 // Create a timeout to make sure we still have a connection to our server
 setInterval(function() {
-	if (! window.showSplash) {
+	if (! showSplash) {
 		// Do nothing, user has closed the splash
-	} else if (new Date() - window.pusherUpdated > 10000) {
+	} else if (new Date() - pusherUpdated > 10000) {
 		$splash.fadeIn(1000).find("h3").html("Connection to Memcached server lost.<br />"
 			+ "<span>Click anywhere to close this screen</span>"
 		);
 	} else {
 		$splash.fadeOut(1000);
-		window.showSplash = true;
+		showSplash = true;
 	}
 }, 5000);
 
 // Allow users to close the splash screen to inspect the application
 $splash.bind("click", function() {
 	$splash.fadeOut(1000);
-	window.showSplash = false;
+	showSplash = false;
 	return false;
 });

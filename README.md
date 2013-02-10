@@ -1,7 +1,24 @@
-MemcachedRealTime
-=================
+Introducing MemcacheRT
+======================
 
-A real time graph to monitor hits-per-second on your Memcached server.
+A tiny application that will monitor your Memcached server, providing real-time monitoring and up-to-the-second data in a glance-able format.
+
+Features include:
+-----------------
+
+ * Easily configurable in just one config.ini file.
+ * Live graph with actions p/s (white) and evictions p/s (red).
+ * All WebSockets, no Ajax here, ma!
+ * Glance-able colour coded statuses; green for "Good", orange for "Okay", red for "Eek".
+ * Know your Get and Set proportion.
+ * Discover if you are missing or evicting a lot of data.
+ * Be alerted when you are running our of storage space.
+ * Know the stability of your server with the live uptime status.
+ * Details on how item quantity, actions performed, how how many connections.
+ * Responsive design; plays nicely any any size, or on your mobile device.
+ * Know when a connection is lost to your server, and automatic recovery.
+ * Only have Memcached installed locally? No problem, use the test server script.
+ * Released under the MIT licence.
 
 Prerequisites
 -------------
@@ -12,7 +29,7 @@ Installation guide
 ------------------
 
 * Copy files to your Web server (path does not matter),
-* Edit the /Library/config.ini for your specific settings,
-* Run the server.php as a server (php -q server.php),
+* Edit the Library/config.ini for your specific settings,
+* Run the server.php in your terminal (php -q server.php),
 * Navigation your browser to index.php,
 * Watch as the graph will display real-time hits on your Memcached server.

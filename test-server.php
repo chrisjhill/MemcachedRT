@@ -1,4 +1,6 @@
 <?php
+use MemcacheRT\Config;
+
 /**
  * This is a simulation script of what interaction with a Memcached server
  * might look like. It is a never-ending script, you can initiate it the same
@@ -7,38 +9,36 @@
  * It tries to spread the simulation over hits/sets/misses, so it will not look
  * exactly like production, but will give you a good enough example of what
  * this script will look like live.
- *
  */
 
 // Get the configs
 include dirname(__FILE__) . '/Library/Config.class.php';
 
 // Setup Demcached
-$memcached = new Memcached();
+$memcached = new \Memcached();
 $memcached->addServer(Config::get('host'), Config::get('portMemcached'));
 
 // Start the infinite loop
 while (true) {
-	// Get a random amount of variables
-	for ($i = 0, $r = mt_rand(1, 750); $i <= $r; $i++) {
+	// This will generate between 500 and 2,000 Memecached actions per second
+	for ($i = 0, $r = mt_rand(100, 400); $i <= $r; $i++) {
 		// Make the set stats go up
-		$memcachedVariable = 'foo' . mt_rand(0, 9999999999);
+		// We want about 3/4 gets and 1/4 sets
+		// We want about 2/4 hits, 1/4 misses, and 1/4 evictions
+		$memcachedVariable = 'foo' . mt_rand(0, 99999);
 		$memcached->set($memcachedVariable, 'bar');
-		$memcached->get(mt_rand(0, 1) ? $memcachedVariable : 'var-that-doesnt-exist');
-
-		// Simulate both hits and misses
-		if (mt_rand(0, 2)) {
-			$memcached->get(mt_rand(0, 1) ? $memcachedVariable : 'var-that-doesnt-exist');
-			$memcached->get(mt_rand(0, 1) ? $memcachedVariable : 'var-that-doesnt-exist');
-		}
+		$memcached->get($memcachedVariable);
+		$memcached->get($memcachedVariable);
+		$memcached->get($memcachedVariable);
+		$memcached->get('var-that-doesnt-exist');
 	}
 
 	// Output a message on the terminal so we know it's running
-	echo date('jS F Y, G:i:s') . "\n";
+	echo date('jS F Y, G:i:s')
+		. ': '
+		. number_format($i * 5)
+		. " simulations\n";
 
 	// Sleep for a second, otherwise it will be going like the clappers!
 	sleep(1);
 }
-
-// close the listening socket
-socket_close($socket);

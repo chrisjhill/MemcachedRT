@@ -1,4 +1,6 @@
-Introducing MemcacheRT
+<img src="http://laboratory.chrisjhill.co.uk/memcachedrt/screen-small.png" align="right" />
+
+Introducing MemcachedRT
 ======================
 
 A tiny application that will monitor your Memcached server, providing real-time monitoring and up-to-the-second data in a glance-able format.

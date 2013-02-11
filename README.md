@@ -1,4 +1,4 @@
-<img src="http://laboratory.chrisjhill.co.uk/memcachedrt/screen-small.png" align="right" />
+<img src="http://lab.chrisjhill.co.uk/MemcachedRT/screen-small.png" align="right" />
 
 Introducing MemcachedRT
 ======================

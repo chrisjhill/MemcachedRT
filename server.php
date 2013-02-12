@@ -1,5 +1,6 @@
 <?php
 use MemcacheRT\Config;
+use MemcacheRT\Driver;
 
 /**
  * Run this script in your terminal (php -q /path/to/this/file.php).
@@ -8,10 +9,12 @@ use MemcacheRT\Config;
 
 // Get the configs
 include dirname(__FILE__) . '/Library/Config.class.php';
+include dirname(__FILE__) . '/Library/Driver.class.php';
 include dirname(__FILE__) . '/Library/Pusher.class.php';
 
 // Setup Memcached
-$memcached = new \Memcached();
+$driver = Config::get('driver');
+$memcached = Driver::factory($driver);
 $memcached->addServer(Config::get('host'), Config::get('portMemcached'));
 
 // Get the stats, and set how many hits there have been so far
@@ -74,7 +77,7 @@ function getMemcachedStats($memcached, $memcachedTotals) {
 	return array(
 		// Standard Memcached stats
 		'processId'   => $stats['pid'],
-		'uptime'      => date('H:i:s', $stats['uptime']),
+		'uptime'      => convert_uptime_to_string($stats['uptime']),
 		'currItems'   => $stats['curr_items'],
 		'totalItems'  => $stats['total_items'],
 		'currCons'    => $stats['curr_connections'],
@@ -96,4 +99,19 @@ function getMemcachedStats($memcached, $memcachedTotals) {
 		'spaceTotal'  => $stats['limit_maxbytes'],
 		'spaceFree'   => $stats['limit_maxbytes'] - $stats['bytes']
 	);
+}
+
+// Convert uptime seconds to a human format
+function convert_uptime_to_string($uptime) {
+
+	$str = gmdate('H:i:s', $uptime);
+
+	if($uptime >= 86400) {
+		$days = (int) floor($uptime / 86400);
+		$days_str = ($days === 1) ? 'day' : 'days';
+		$str = "$days $days_str $str";
+	}
+
+	return $str;
+
 }

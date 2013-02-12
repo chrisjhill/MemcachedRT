@@ -74,7 +74,7 @@ function getMemcachedStats($memcached, $memcachedTotals) {
 	return array(
 		// Standard Memcached stats
 		'processId'   => $stats['pid'],
-		'uptime'      => date('H:i:s', $stats['uptime']),
+		'uptime'      => convert_uptime_to_string($stats['uptime']),
 		'currItems'   => $stats['curr_items'],
 		'totalItems'  => $stats['total_items'],
 		'currCons'    => $stats['curr_connections'],
@@ -96,4 +96,19 @@ function getMemcachedStats($memcached, $memcachedTotals) {
 		'spaceTotal'  => $stats['limit_maxbytes'],
 		'spaceFree'   => $stats['limit_maxbytes'] - $stats['bytes']
 	);
+}
+
+// Convert uptime seconds to a human format
+function convert_uptime_to_string($uptime) {
+
+	$str = gmdate('H:i:s', $uptime);
+
+	if($uptime >= 86400) {
+		$days = (int) floor($uptime / 86400);
+		$days_str = ($days === 1) ? 'day' : 'days';
+		$str = "$days $days_str $str";
+	}
+
+	return $str;
+
 }

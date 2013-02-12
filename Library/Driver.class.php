@@ -4,108 +4,96 @@ namespace MemcacheRT;
 /**
  * Drivers for interacting with memcached
  *
- * PHP provides two primary memcached drivers: Memcached
- * and Memcache. This driver abstracts the differences away
- * between them. In an ideal world, this would merely act
- * as a wrapper around the actual drivers, but in this
+ * PHP provides two primary memcached drivers: Memcached and Memcache. This
+ * driver abstracts the differences away between them. In an ideal world, this
+ * would merely act as a wrapper around the actual drivers, but in this
  * instance, switch statements will suffice.
  *
  * @author      383 Project <hello@383project.com>
  * @since       02/02/2013
  */
 class Driver {
-
-
 	/**
-	 * Create a new Memcached driver
-	 *
-	 * @access public
-	 * @static
-	 **/
-	public static function factory($driver) {
-		return new Driver($driver);
-	}
-
-
-	/**
-	 * Internal driver name
+	 * Internal driver name, either "Memcached" or "Memcache".
 	 *
 	 * @access protected
 	 * @var    string
 	 */
-	protected $driver_name;
-
+	protected $_driverName;
 
 	/**
-	 * Internal driver instance
+	 * Internal driver instance.
 	 *
 	 * @access protected
 	 * @var    object
 	 */
-	protected $driver_inst;
+	protected $_driverInstance;
 
+	/**
+	 * Create a new Memcached driver.
+	 *
+	 * @access public
+	 * @param  string $driverName Internal driver name.
+	 * @static
+	 **/
+	public static function factory($driverName) {
+		return new Driver($driverName);
+	}
 
 	/**
 	 * New Memcached driver
 	 *
 	 * @access public
+	 * @param  string $driverName Internal driver name.
 	 **/
-	public function __construct($driver) {
-
-		$driver = strtolower($driver);
-
-		switch($driver) {
-
+	public function __construct($driverName) {
+		switch (strtolower($driverName)) {
 			case 'memcache':
-				if(!class_exists('Memcache')) trigger_error('Driver "Memcache" not found', E_USER_ERROR);
-				$this->driver_name = 'Memcache';
-				$this->driver_inst = new \Memcache;
+				if (! class_exists('Memcache')) {
+					trigger_error('Driver "Memcache" not found', E_USER_ERROR);
+				}
+
+				$this->_driverName     = 'Memcache';
+				$this->_driverInstance = new \Memcache;
 				break;
 
-			case 'memcached':
 			default:
-				if(!class_exists('Memcached')) trigger_error('Driver "Memcached" not found', E_USER_ERROR);
-				$this->driver_name = 'Memcached';
-				$this->driver_inst = new \Memcached;
-				break;
+				if (! class_exists('Memcached')) {
+					trigger_error('Driver "Memcached" not found', E_USER_ERROR);
+				}
 
+				$this->_driverName     = 'Memcached';
+				$this->_driverInstance = new \Memcached;
 		}
-
 	}
 
-
 	/**
-	 * Add Memcached server
+	 * Add Memcached server to the instance.
 	 *
 	 * @access public
+	 * @param  string $host The host of the Memcached server.
+	 * @param  string $port The port number for the Memcached server.
 	 **/
 	public function addServer($host, $port) {
-		$this->driver_inst->addServer($host, $port);
+		$this->_driverInstance->addServer($host, $port);
 	}
 
-
 	/**
-	 * Add Memcached server
+	 * Get the stats for this Memcached instance.
 	 *
 	 * @access public
+	 * @return array
 	 **/
-	public function getStats($host, $port) {
-
-		switch($this->driver_name) {
-
+	public function getStats() {
+		switch ($this->_driverName) {
 			case 'Memcache':
-				return $this->driver_inst->getExtendedStats();
+				return $this->_driverInstance->getExtendedStats();
 				break;
 
-			case 'Memcached':
-				return $this->driver_inst->getStats();
-				break;
-
+			default:
+				return $this->_driverInstance->getStats();
 		}
 
 		return false;
-
 	}
-
-
 }

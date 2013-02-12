@@ -13,8 +13,7 @@ include dirname(__FILE__) . '/Library/Driver.class.php';
 include dirname(__FILE__) . '/Library/Pusher.class.php';
 
 // Setup Memcached
-$driver = Config::get('driver');
-$memcached = Driver::factory($driver);
+$memcached = Driver::factory(Config::get('driver'));
 $memcached->addServer(Config::get('host'), Config::get('portMemcached'));
 
 // Get the stats, and set how many hits there have been so far
@@ -77,7 +76,7 @@ function getMemcachedStats($memcached, $memcachedTotals) {
 	return array(
 		// Standard Memcached stats
 		'processId'   => $stats['pid'],
-		'uptime'      => convert_uptime_to_string($stats['uptime']),
+		'uptime'      => convertUptimeToString($stats['uptime']),
 		'currItems'   => $stats['curr_items'],
 		'totalItems'  => $stats['total_items'],
 		'currCons'    => $stats['curr_connections'],
@@ -102,16 +101,16 @@ function getMemcachedStats($memcached, $memcachedTotals) {
 }
 
 // Convert uptime seconds to a human format
-function convert_uptime_to_string($uptime) {
+function convertUptimeToString($uptime) {
+	// Work out the hours, mintues, and seconds
+	$uptimeHourMinSecond = gmdate('H:i:s', $uptime);
 
-	$str = gmdate('H:i:s', $uptime);
-
-	if($uptime >= 86400) {
-		$days = (int) floor($uptime / 86400);
-		$days_str = ($days === 1) ? 'day' : 'days';
-		$str = "$days $days_str $str";
+	// Memcached server has been up for more than a day?
+	if ($uptime >= 86400) {
+		$dayQuantity = floor($uptime / 86400);
+		$daysPlural  = $dayQuantity == 1 ? 'day' : 'days';
+		return "$dayQuantity $daysPlural $uptimeHourMinSecond";
 	}
 
-	return $str;
-
+	return $uptimeHourMinSecond;
 }

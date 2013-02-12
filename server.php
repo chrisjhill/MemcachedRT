@@ -1,5 +1,6 @@
 <?php
 use MemcacheRT\Config;
+use MemcacheRT\Driver;
 
 /**
  * Run this script in your terminal (php -q /path/to/this/file.php).
@@ -8,10 +9,12 @@ use MemcacheRT\Config;
 
 // Get the configs
 include dirname(__FILE__) . '/Library/Config.class.php';
+include dirname(__FILE__) . '/Library/Driver.class.php';
 include dirname(__FILE__) . '/Library/Pusher.class.php';
 
 // Setup Memcached
-$memcached = new \Memcached();
+$driver = Config::get('driver');
+$memcached = Driver::factory($driver);
 $memcached->addServer(Config::get('host'), Config::get('portMemcached'));
 
 // Get the stats, and set how many hits there have been so far

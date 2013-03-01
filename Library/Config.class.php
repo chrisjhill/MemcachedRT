@@ -1,12 +1,11 @@
 <?php
-namespace MemcacheRT;
+namespace MemcachedRT;
 
 /**
  * Configurations for the Memcached Real Time tracking.
  *
- * @copyright   2012 Christopher Hill <cjhill@gmail.com>
- * @author      Christopher Hill <cjhill@gmail.com>
- * @since       03/02/2013
+ * @author Christopher Hill <cjhill@gmail.com>
+ * @since  03/02/2013
  */
 class Config
 {

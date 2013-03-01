@@ -1,5 +1,5 @@
 <?php
-use MemcacheRT\Config;
+use MemcachedRT\Config;
 
 /**
  * This is a simulation script of what interaction with a Memcached server
@@ -12,11 +12,11 @@ use MemcacheRT\Config;
  */
 
 // Get the configs
-include dirname(__FILE__) . '/Library/Config.class.php';
+include 'Library/Config.class.php';
 
 // Setup Demcached
 $memcached = new \Memcached();
-$memcached->addServer(Config::get('host'), Config::get('portMemcached'));
+$memcached->addServer(Config::get('host'), Config::get('port'));
 
 // Start the infinite loop
 while (true) {
@@ -25,7 +25,7 @@ while (true) {
 		// Make the set stats go up
 		// We want about 3/4 gets and 1/4 sets
 		// We want about 2/4 hits, 1/4 misses, and 1/4 evictions
-		$memcachedVariable = 'foo' . mt_rand(0, 99999);
+		$memcachedVariable = 'foo' . mt_rand(0, 9999999);
 		$memcached->set($memcachedVariable, 'bar');
 		$memcached->get($memcachedVariable);
 		$memcached->get($memcachedVariable);

@@ -83,9 +83,9 @@ pusherChannel.bind(pusherEvent, function(data) {
 
 	// General information
 	$infoUptimeP.html(data.uptime);
-	$infoItemsP.html(number_format(data.currItems));
-	$infoActionsP.html(number_format(data.cmdGet + data.cmdSet));
-	$infoConnectionsP.html(number_format(data.currCons));
+	$infoItemsP.html(number_format(data.curr_items));
+	$infoActionsP.html(number_format(data.cmd_get + data.cmd_set));
+	$infoConnectionsP.html(number_format(data.curr_connections));
 });
 
 // Create a timeout to make sure we still have a connection to our server

@@ -1,5 +1,5 @@
 <?php
-use MemcacheRT\Config;
+use MemcachedRT\Config;
 include dirname(__FILE__) . '/Library/Config.class.php';
 ?>
 
@@ -36,7 +36,7 @@ include dirname(__FILE__) . '/Library/Config.class.php';
 			<div class="col-1-2">
 				<p id="host">
 					<strong>Live monitoring:</strong>
-					<?=Config::get('host')?>:<?=Config::get('portMemcached')?>
+					<?=Config::get('host')?>:<?=Config::get('port')?>
 				</p>
 			</div>
 		</div>

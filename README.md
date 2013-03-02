@@ -35,3 +35,8 @@ Installation guide
 * Run the server.php in your terminal (php -q server.php),
 * Navigation your browser to index.php,
 * Watch as the graph will display real-time hits on your Memcached server.
+
+PHPUnit tests
+-------------
+
+OK (6 Tests, 39 assertions)

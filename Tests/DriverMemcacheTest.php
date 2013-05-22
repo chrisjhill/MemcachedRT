@@ -2,11 +2,6 @@
 use MemcachedRT\Config;
 use MemcachedRT\DriverFactory;
 
-include '../Library/Config.class.php';
-include '../Library/DriverFactory.class.php';
-include '../Library/DriverAbstract.class.php';
-include '../Library/DriverMemcache.class.php';
-
 // Start tests
 class DriverMemcacheTest extends PHPUnit_Framework_TestCase
 {

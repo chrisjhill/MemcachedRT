@@ -2,13 +2,13 @@
 use MemcachedRT\Config;
 use MemcachedRT\DriverFactory;
 
-include '../Library/Config.class.php';
-include '../Library/DriverFactory.class.php';
-include '../Library/DriverAbstract.class.php';
-include '../Library/DriverMemcached.class.php';
+include dirname(__FILE__) . '/../Library/Config.class.php';
+include dirname(__FILE__) . '/../Library/DriverFactory.class.php';
+include dirname(__FILE__) . '/../Library/DriverAbstract.class.php';
+include dirname(__FILE__) . '/../Library/DriverMemcached.class.php';
 
 // Start tests
-class DriverFactoryTest extends PHPUnit_Framework_TestCase
+class DriverAbstractTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Can we convert the uptime to a human readable form?

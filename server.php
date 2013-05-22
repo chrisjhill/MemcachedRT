@@ -31,14 +31,17 @@ while (true) {
 	// Get the new stats on Memcached
 	$stats = $memcache->getStats();
 
-	// Push the message to Pusher
-	$pusher->trigger('memcached', 'stat', $stats);
+	// Were we able to gather stats?
+	if ($stats) {
+		// Push the message to Pusher
+		$pusher->trigger('memcached', 'stat', $stats);
 
-	// Output a message on the terminal so we know it's running
-	echo date('jS F Y, G:i:s')
-		. ': '
-		. number_format($stats['psGets'] + $stats['psGets'])
-		. " actions\n";
+		// Output a message on the terminal so we know it's running
+		echo date('jS F Y, G:i:s')
+			. ': '
+			. number_format($stats['psGets'] + $stats['psGets'])
+			. " actions\n";
+	}
 
 	// Sleep for a second, otherwise it will be going like the clappers!
 	sleep(1);

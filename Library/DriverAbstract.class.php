@@ -67,11 +67,16 @@ abstract class DriverAbstract {
 	 * Returns an array of pre-manipulated stats.
 	 *
 	 * @access public
-	 * @return array
+	 * @return boolean|array Boolean false on error, array if successful.
 	 */
 	public function getStats() {
 		// Get the raw stats from
 		$stats = $this->getRawStats();
+
+		// Make sure that we have received valid data from Memcache
+		if ($this->dataIsMalformed($stats)) {
+			return false;
+		}
 
 		// Turn bytes into MB, and the uptime into a readable string
 		$stats['limit_maxbytes'] = $stats['limit_maxbytes'] / 1024 / 1024;
@@ -96,6 +101,40 @@ abstract class DriverAbstract {
 
 		// And return the stats
 		return array_merge($stats, $return);
+	}
+
+	/**
+	 * Work out if the data we received from Memcache is valid.
+	 *
+	 * In an ideal world this function would not exist, however, in the wild
+	 * there is a chance that the data will be malformed causing our graph
+	 * to become wildly innacurate.
+	 *
+	 * @access private
+	 * @param  array   $stats The data that we received from Memcache.
+	 * @return boolean
+	 */
+	private function dataIsMalformed($stats) {
+		// The indices that we require
+		$requiredStats = array(
+			'limit_maxbytes',
+			'bytes',
+			'cmd_get',
+			'cmd_set',
+			'get_hits',
+			'get_misses',
+			'evictions'
+		);
+
+		// Loop over each required piece of data and check it exists and is valid
+		foreach ($requiredStats as $stat) {
+			if (! isset($stats[$stat]) || empty($stats[$stat]) || $stats[$stat] < 0) {
+				return false;
+			}
+		}
+
+		// All the required stats seem to be present
+		return true;
 	}
 
 	/**
